@@ -16,6 +16,41 @@ request.onupgradeneeded = function(event) {
     db.createObjectStore('products', { keyPath: 'id' });
 };
 
+// ===== Modal: abrir y cerrar el formulario de productos =====
+const modalOverlay = document.getElementById('modalOverlay');
+const nameInput = document.getElementById('name');
+const priceInput = document.getElementById('price');
+
+function openModal() {
+    modalOverlay.classList.add('active');
+    nameInput.focus();
+}
+
+function closeModal() {
+    modalOverlay.classList.remove('active');
+    //Clear the form fields
+    nameInput.value = '';
+    priceInput.value = '';
+}
+
+document.getElementById('openModalBtn').addEventListener('click', openModal);
+document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+document.getElementById('cancelModalBtn').addEventListener('click', closeModal);
+
+//Close the modal when clicking outside the window
+modalOverlay.addEventListener('click', function(event) {
+    if (event.target === modalOverlay) {
+        closeModal();
+    }
+});
+
+//Close the modal with the Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && modalOverlay.classList.contains('active')) {
+        closeModal();
+    }
+});
+
 //Load/Read products from IndexedDB and display them in the table
 function loadProductTable() {
     const transaction = db.transaction(['products'], 'readonly');
@@ -28,6 +63,12 @@ function loadProductTable() {
         const tableBody = document.querySelector('#productsTable tbody');
         tableBody.innerHTML = ''; // Clear the table before adding new products
 
+        if (products.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td colspan="4" class="empty-state">No products added yet.</td>`;
+            tableBody.appendChild(row);
+        }
+
         products.forEach(product => {
             //Create a table row
             const row = document.createElement('tr');
@@ -39,6 +80,10 @@ function loadProductTable() {
             `;
             tableBody.appendChild(row);
         });
+
+        //Update the status bar with the product count
+        document.getElementById('statusText').textContent =
+            products.length + (products.length === 1 ? ' product' : ' products');
 
     //Add event listeners for delete buttons
         document.querySelectorAll('.delete-btn').forEach(button => {
@@ -74,12 +119,12 @@ function addProduct() {
 
     //Add/Create the new product to the DB
         store.add(newProduct);
-        //Clear the form fields
-        document.getElementById('name').value = '';
-        document.getElementById('price').value = '';
 
     //Update the table with the new product
         loadProductTable();
+
+    //Close the modal (it also clears the form fields)
+        closeModal();
     };
 }
 
@@ -98,3 +143,12 @@ function deleteProduct(event) {
 
 //Event listener for the button click
 document.getElementById('addProduct').addEventListener('click', addProduct);
+
+//Allow pressing Enter inside the modal inputs to add the product
+[nameInput, priceInput].forEach(input => {
+    input.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            addProduct();
+        }
+    });
+});
