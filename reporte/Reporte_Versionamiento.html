@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Reporte de práctica — Control de versiones | Valenzuela Cruz Emmanuel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Pixelify+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --face:#c0c0c0; --shadow:#808080; --dark:#0a0a0a; --light:#dfdfdf; --white:#fff;
+  --navy:#1c3f7a; --blue:#4a76b5; --ink:#000; --paper:#f4f2ea;
+}
+*{box-sizing:border-box}
+@page{size:A4; margin:14mm 12mm}
+body{
+  font-family:'Pixelify Sans',Tahoma,sans-serif; font-size:11.5pt; line-height:1.5;
+  color:var(--ink); background:#fff; margin:0;
+}
+h1,h2,h3{font-family:'VT323','Pixelify Sans',monospace; font-weight:400; letter-spacing:.5px; margin:0}
+h2{font-size:20pt; color:var(--navy); margin:0 0 10px; padding-bottom:6px; border-bottom:2px solid var(--shadow)}
+h3{font-size:15pt; color:#2b2b2b; margin:18px 0 6px}
+p{margin:0 0 10px}
+.page{page-break-after:always}
+.page:last-child{page-break-after:auto}
+
+/* ---------- Portada ---------- */
+.cover{
+  min-height:245mm; display:flex; flex-direction:column; justify-content:space-between;
+  border:2px solid var(--dark); padding:0; background:var(--paper);
+}
+.cover-top{background:var(--navy); color:#fff; padding:14px 20px; text-align:center}
+.cover-top .inst{font-size:12pt; letter-spacing:1px}
+.cover-top .course{font-family:'VT323',monospace; font-size:26pt; line-height:1.1; margin-top:4px}
+.cover-mid{padding:26px 24px; text-align:center}
+.cover-mid h1{font-size:30pt; line-height:1.05; color:var(--navy); margin-bottom:6px}
+.cover-mid .sub{font-size:12pt; color:#3a3a3a; margin-bottom:22px}
+.fieldset{
+  border:2px solid var(--shadow); background:#fff; padding:14px 18px; text-align:left;
+  box-shadow:inset -1px -1px var(--dark), inset 1px 1px var(--light), inset -2px -2px var(--shadow), inset 2px 2px var(--white);
+}
+.fieldset .row{display:flex; gap:10px; padding:5px 0; border-bottom:1px dotted var(--shadow)}
+.fieldset .row:last-child{border-bottom:none}
+.fieldset .k{width:38%; color:#3a3a3a}
+.fieldset .v{width:62%; font-weight:700}
+.cover-bottom{background:var(--face); padding:10px 20px; border-top:2px solid var(--dark); font-size:10.5pt}
+
+/* ---------- Bloques de contenido ---------- */
+.box{border:1px solid var(--shadow); padding:14px 16px; margin:12px 0; background:#fff}
+.box.accent{background:#eef1f6; border-left:5px solid var(--navy)}
+code,kbd{font-family:'JetBrains Mono',Consolas,monospace; font-size:9.5pt; background:#e8e8e8; padding:1px 4px; border:1px solid #cfcfcf}
+pre{
+  font-family:'JetBrains Mono',Consolas,monospace; font-size:9pt; line-height:1.45;
+  background:#f0f0f0; border-left:4px solid var(--navy); padding:10px 12px; margin:8px 0 12px;
+  white-space:pre-wrap; word-break:break-word;
+}
+table{border-collapse:collapse; width:100%; margin:10px 0 14px; font-size:10.5pt}
+th{background:var(--face); text-align:left; padding:7px 9px; border:1px solid var(--shadow)}
+td{padding:7px 9px; border:1px solid var(--light); vertical-align:top}
+tbody tr:nth-child(even) td{background:#f7f7f7}
+ol,ul{margin:0 0 10px; padding-left:22px}
+li{margin-bottom:5px}
+figure{margin:12px 0 18px; text-align:center; page-break-inside:avoid}
+figure img{width:100%; border:1px solid var(--shadow); box-shadow:3px 3px 0 #d8d8d8}
+figcaption{font-size:10pt; color:#4a4a4a; margin-top:6px; font-style:italic}
+a{color:var(--navy)}
+.linkcard{
+  display:block; border:1px solid var(--shadow); background:#fff; padding:12px 14px; margin-bottom:10px;
+  text-decoration:none; box-shadow:2px 2px 0 #e2e2e2;
+}
+.linkcard .t{font-family:'VT323',monospace; font-size:16pt; color:var(--navy); display:block}
+.linkcard .u{font-family:'JetBrains Mono',monospace; font-size:9.5pt; color:#3a3a3a; word-break:break-all}
+.two{display:flex; gap:12px}
+.two>*{width:50%}
+.chip{display:inline-block; background:var(--face); border:1px solid var(--shadow); padding:1px 7px; font-size:9.5pt; margin:0 4px 4px 0}
+.note{font-size:10pt; color:#4a4a4a}
+hr.dashed{border:none; border-top:2px dashed var(--shadow); margin:16px 0}
+</style>
+</head>
+<body>
+
+<!-- ============ PORTADA ============ -->
+<section class="page cover">
+  <div class="cover-top">
+    <div class="inst">Tijuana, Baja California &middot; 30 de septiembre de 2026</div>
+    <div class="course">Desarrollo Web Integral</div>
+  </div>
+
+  <div class="cover-mid">
+    <h1>Reporte de pr&aacute;ctica</h1>
+    <div class="sub">Control de versiones con Git y GitHub:<br>ramas, Pull Request y despliegue con GitHub Pages</div>
+
+    <div class="fieldset">
+      <div class="row"><div class="k">Materia</div><div class="v">Desarrollo Web Integral</div></div>
+      <div class="row"><div class="k">Profesor</div><div class="v">Yakko Miguel Olivo</div></div>
+      <div class="row"><div class="k">Alumno</div><div class="v">Valenzuela Cruz Emmanuel</div></div>
+      <div class="row"><div class="k">Grupo</div><div class="v">9no C</div></div>
+      <div class="row"><div class="k">Fecha de entrega</div><div class="v">30 de septiembre de 2026</div></div>
+      <div class="row"><div class="k">Repositorio</div><div class="v">versionamiento-valenzuela-cruz</div></div>
+      <div class="row"><div class="k">Rama de trabajo</div><div class="v">feature/personalizacion-ui</div></div>
+    </div>
+  </div>
+
+  <div class="cover-bottom">
+    Aplicaci&oacute;n web de productos con IndexedDB, redise&ntilde;ada con est&eacute;tica retro Windows 95/98.
+  </div>
+</section>
+
+<!-- ============ 1. OBJETIVO ============ -->
+<section class="page">
+  <h2>1. Objetivo</h2>
+  <p> Aplicar el control de versiones a una aplicaci&oacute;n web existente como pr&aacute;ctica de la
+  materia <strong>Desarrollo Web Integral</strong>. Para ello se inicializ&oacute; un repositorio de Git con el
+  proyecto base, se trabaj&oacute; sobre una <strong>rama secundaria</strong> para aislar los cambios de interfaz,
+  se registraron los cambios en commits con la convenci&oacute;n <em>Conventional Commits</em>, se integr&oacute; el
+  trabajo mediante un <strong>Pull Request</strong> y se public&oacute; la aplicaci&oacute;n con
+  <strong>GitHub Pages</strong> para poder demonstrationsela desde una URL p&uacute;blica.</p>
+
+  <h3>1.1 Punto de partida</h3>
+  <p>La aplicaci&oacute;n base es una lista de productos (<code>index.html</code>, <code>styles.css</code>,
+  <code>functions.js</code>) que:</p>
+  <ul>
+    <li>Almacena los productos en <strong>IndexedDB</strong> (base de datos del navegador, base de datos
+        <code>exampleProductDB</code>, object store <code>products</code>).</li>
+    <li>Permite agregar y eliminar productos mediante un formulario y una tabla.</li>
+    <li>Ten&iacute;a una est&eacute;tica original de colores ne&oacute;n (<code>#8412B0</code>, <code>#FF007F</code>,
+        <code>#00FFFF</code>) y no estaba versionada en ning&uacute;n sistema de control de versiones.</li>
+  </ul>
+
+  <h3>1.2 Cambios solicitados en la interfaz</h3>
+  <table>
+    <thead><tr><th style="width:8%">#</th><th style="width:30%">Requisito</th><th>Soluci&oacute;n aplicada</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Paleta de colores</td><td>Paleta retro desaturada declarada como variables CSS (<code>:root</code>): escritorio <code>#4a6a6a</code>, superficies <code>#c0c0c0</code>, barras de t&iacute;tulo <code>#1c3f7a &rarr; #4a76b5</code> y biselados <code>#ffffff / #dfdfdf / #808080 / #0a0a0a</code>.</td></tr>
+      <tr><td>2</td><td>Tipograf&iacute;a</td><td>Google Fonts: <strong>VT323</strong> en t&iacute;tulos y encabezados de tabla, <strong>Pixelify Sans</strong> en el texto de la interfaz.</td></tr>
+      <tr><td>3</td><td>Elemento visual nuevo</td><td>Barra de tareas fija estilo Win95 con bot&oacute;n <strong>Start</strong> y men&uacute; desplegable, reloj en vivo y bandeja del sistema. Adem&aacute;s: ventanas con barra de t&iacute;tulo, formulario como <strong>modal</strong> y barra de estado.</td></tr>
+      <tr><td>4</td><td>Identidad del estudiante</td><td>Pie de p&aacute;gina y men&uacute; Start con el nombre <strong>Valenzuela Cruz Emmanuel</strong>, grupo 9no C, materia y usuario de GitHub.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box accent">
+    <strong>Decisi&oacute;n de dise&ntilde;o.</strong> Los puntos 1 y 2 entran en tensi&oacute;n: la instrucci&oacute;n sugiere
+    tipograf&iacute;as modernas (Inter, Roboto, Poppins) y el dise&ntilde;o pedido era retro Windows 95/98. Se resolvi&oacute;
+    manteniendo la est&eacute;tica retro e importando <strong>fuentes pixeladas</strong> de Google Fonts (VT323 y
+    Pixelify Sans), de modo que se cumple el requisito de tipograf&iacute;a externa sin romper la identidad visual.
+  </div>
+</section>
+
+<!-- ============ 2. PROCEDIMIENTO ============ -->
+<section class="page">
+  <h2>2. Procedimiento t&eacute;cnico</h2>
+
+  <h3>2.1 Repositorio local y rama principal</h3>
+<pre>git init
+git branch -M main</pre>
+  <p>Se inicializ&oacute; el repositorio en la carpeta del proyecto y se estableci&oacute; <code>main</code> como rama
+  principal.</p>
+
+  <h3>2.2 Commit inicial del proyecto base</h3>
+<pre>git add .
+git commit -m "chore: inicializar proyecto base"</pre>
+  <p>El primer commit contiene el proyecto sin modificar, para que larama de trabajo parta de una
+  base limpia y el Pull Request muestre &uacute;nicamente los cambios de esta pr&aacute;ctica.</p>
+
+  <h3>2.3 Creaci&oacute;n de la rama secundaria</h3>
+<pre>git checkout -b feature/personalizacion-ui</pre>
+  <p>Todo el trabajo de interfaz se realiz&oacute; fuera de <code>main</code>, en la rama
+  <code>feature/personalizacion-ui</code>. As&iacute; <code>main</code> permaneci&oacute; siempre desplegable.</p>
+
+  <h3>2.4 Commits de la personalizaci&oacute;n de interfaz</h3>
+<pre>git commit -m "style: actualizar paleta de colores y tipografia principal"
+git commit -m "feat: convertir el formulario de productos en modal"
+git commit -m "feat: agregar componente visual y nombre del estudiante en el footer"
+git commit -m "docs: agregar reporte PDF de la practica de versionamiento"</pre>
+  <table>
+    <thead><tr><th style="width:14%">Commit</th><th style="width:12%">Rama</th><th style="width:44%">Mensaje</th><th>Contenido</th></tr></thead>
+    <tbody>
+      <tr><td><code>6c201b6</code></td><td><code>main</code></td><td>chore: inicializar proyecto base</td><td>Proyecto base sin modificar (HTML, CSS, JS, IndexedDB)</td></tr>
+      <tr><td><code>e4765b1</code></td><td><code>feature/&hellip;</code></td><td>style: actualizar paleta de colores y tipografia principal</td><td>Variables CSS con la paleta retro, biselados, centrado y Google Fonts</td></tr>
+      <tr><td><code>3f615b0</code></td><td><code>feature/&hellip;</code></td><td>feat: convertir el formulario de productos en modal</td><td>Formulario en ventana modal, bot&oacute;n sobre la tabla, JavaScript del modal</td></tr>
+      <tr><td><code>e470e0e</code></td><td><code>feature/&hellip;</code></td><td>feat: agregar componente visual y nombre del estudiante en el footer</td><td>Barra de tareas con Start y reloj, pie de p&aacute;gina con la identidad</td></tr>
+      <tr><td><em>(este commit)</em></td><td><code>feature/&hellip;</code></td><td>docs: agregar reporte PDF de la practica de versionamiento</td><td>Este reporte (HTML y PDF) dentro del repositorio</td></tr>
+    </tbody>
+  </table>
+  <p class="note">Total: <strong>5 commits</strong> (1 en <code>main</code> y 4 en la rama secundaria), dentro del l&iacute;mite de 2 a 5.</p>
+
+  <h3>2.5 Publicaci&oacute;n en GitHub</h3>
+<pre>gh repo create versionamiento-valenzuela-cruz --public --description "Practica de control de versiones"
+git remote add origin https://github.com/Agent3835/versionamiento-valenzuela-cruz.git
+git push -u origin main
+git push -u origin feature/personalizacion-ui</pre>
+  <p>El repositorio se cre&oacute; como <strong>p&uacute;blico</strong>, ya que GitHub Pages solo est&aacute; disponible para
+  repositorios p&uacute;blicos en el plan gratuito. Ambas ramas se subir&iacute;on al remoto.</p>
+
+  <h3>2.6 Pull Request y fusi&oacute;n</h3>
+<pre>gh pr create --base main --head feature/personalizacion-ui --title "..." --body "..."
+gh pr merge --merge</pre>
+  <p>El PR describe los cuatro cambios de interfaz, los commits involucrados y las notas t&eacute;cnicas. Se fusion&oacute;
+  con <strong>merge commit</strong> (no squash) para conservar el historial completo de la rama y que la fusi&oacute;n
+  quede registrada como tal. La rama <code>feature/personalizacion-ui</code> se conserva en el remoto.</p>
+
+  <h3>2.7 Despliegue con GitHub Pages</h3>
+<pre>gh api -X POST repos/Agent3835/versionamiento-valenzuela-cruz/pages \
+  -f source[branch]=main -f source[path]=/</pre>
+  <p>GitHub Pages se activa desde la rama <code>main</code> en la ra&iacute;z del repositorio
+  (<code>/docs</code> no se usa porque <code>index.html</code> est&aacute; en la ra&iacute;z). Despu&eacute;s del
+  despliegue, la aplicaci&oacute;n queda disponible en una URL p&uacute;blica con <code>https</code>, requisito
+  indispensable para que IndexedDB funcione.</p>
+</section>
+
+<!-- ============ 3. INTERFAZ ============ -->
+<section class="page">
+  <h2>3. Resultado de la interfaz</h2>
+  <p>El dise&ntilde;o imita una est&eacute;tica Windows 95/98 con colores desaturados: escritorio teal, ventanas grises
+  con bordes biselados de dos capas (luz arriba-izquierda, sombra abajo-derecha), barras de t&iacute;tulo con
+  degradado azul marino, campos de texto "hundidos" y botones que se hunden al pulsarse.</p>
+
+  <figure>
+    <img src="img/ventana-principal.png" alt="Ventana principal con la tabla de productos y la barra de tareas">
+    <figcaption>Figura 1. Ventana principal: tabla de productos, bot&oacute;n &laquo;+ Add Product&raquo; sobre la tabla, barra de estado con el conteo y barra de tareas al pie.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="img/modal-producto.png" alt="Formulario de producto en ventana modal">
+    <figcaption>Figura 2. El formulario de alta se abre como ventana modal sobre la aplicaci&oacute;n; se cierra con el bot&oacute;n X, Cancel, la tecla Escape o haciendo clic fuera.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="img/start-menu.png" alt="Menu Start desplegado con la identidad del estudiante">
+    <figcaption>Figura 3. Componente visual nuevo: barra de tareas con bot&oacute;n Start, men&uacute; desplegable con la identidad del estudiante y reloj en la bandeja del sistema.</figcaption>
+  </figure>
+</section>
+
+<!-- ============ 4. VERIFICACION ============ -->
+<section class="page">
+  <h2>4. Verificaci&oacute;n</h2>
+  <p>Para asegurar que los cambios visuales no rompieron el funcionamiento de la aplicaci&oacute;n, se realizaron
+  tres verificaciones:</p>
+
+  <table>
+    <thead><tr><th style="width:28%">Verificaci&oacute;n</th><th>Resultado</th></tr></thead>
+    <tbody>
+      <tr><td>Sintaxis de JavaScript</td><td><code>node --check functions.js</code> sin errores en cada commit de JavaScript.</td></tr>
+      <tr><td>Pruebas funcionales<br><span class="note">(jsdom + fake-indexeddb)</span></td>
+          <td><strong>24 pruebas, todas correctas</strong>: alta y baja de productos con IndexedDB, modal (apertura, cierre por X / Cancel / Escape / clic exterior, limpieza de campos, tecla Enter), estado vac&iacute;o, men&uacute; Start (apertura, clic exterior, Escape, enlace a productos), reloj y pie de p&aacute;gina.</td></tr>
+      <tr><td>Estilos calculados<br><span class="note">(Chrome, <code>getComputedStyle</code>)</span></td>
+          <td>Confirm&oacute; la paleta aplicada (<code>rgb(74,106,106)</code> escritorio, <code>rgb(192,192,192)</code> ventana), las tipograf&iacute;as de Google Fonts, los biselados de botones y tabla, el centrado del layout, el modal oculto por defecto y la barra de tareas fija.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="box">
+    <strong>Alcance de los cambios.</strong> La l&oacute;gica de <code>IndexedDB</code>
+    (<code>open</code>, <code>onupgradeneeded</code>, <code>getAll</code>, <code>add</code>, <code>delete</code>)
+    se conserv&oacute; intacta: la pr&aacute;ctica es de control de versiones, no de rehacer la base de datos. Los
+    cambios se limitan a la capa de presentaci&oacute;n (HTML, CSS) y al JavaScript de interfaz (modal, men&uacute; Start,
+    reloj). El repositorio recib&oacute; <strong>533 l&iacute;neas agregadas y 90 eliminadas</strong> en los tres archivos.
+  </div>
+
+  <div class="box accent">
+    <strong>Nota t&eacute;cnica.</strong> La aplicaci&oacute;n base necesita servirse por <code>http://</code> o
+    <code>https://</code>: si se abre con doble clic (<code>file://</code>), el navegador bloquea IndexedDB y la
+    tabla aparece vac&iacute;a. Por eso el despliegue en GitHub Pages, que sirve la aplicaci&oacute;n con <code>https</code>,
+    es necesario para demostrarla correctamente.
+  </div>
+</section>
+
+<!-- ============ 5. ENLACES ============ -->
+<section class="page">
+  <h2>5. Enlaces</h2>
+
+  <a class="linkcard" href="https://github.com/Agent3835/versionamiento-valenzuela-cruz">
+    <span class="t">Repositorio en GitHub</span>
+    <span class="u">https://github.com/Agent3835/versionamiento-valenzuela-cruz</span>
+  </a>
+
+  <a class="linkcard" href="https://github.com/Agent3835/versionamiento-valenzuela-cruz/pull/1">
+    <span class="t">Pull Request #1 (feature/personalizacion-ui &rarr; main)</span>
+    <span class="u">https://github.com/Agent3835/versionamiento-valenzuela-cruz/pull/1</span>
+  </a>
+
+  <a class="linkcard" href="https://agent3835.github.io/versionamiento-valenzuela-cruz/">
+    <span class="t">Aplicaci&oacute;n desplegada en GitHub Pages</span>
+    <span class="u">https://agent3835.github.io/versionamiento-valenzuela-cruz/</span>
+  </a>
+
+  <div class="two">
+    <div class="box">
+      <strong>Ramas del repositorio</strong><br>
+      <span class="chip"><code>main</code> base + fusi&oacute;n</span>
+      <span class="chip"><code>feature/personalizacion-ui</code></span><br>
+      <span class="note">El Pull Request #1 integr&oacute; la rama de trabajo hacia <code>main</code>.</span>
+    </div>
+    <div class="box">
+      <strong>Contenido del despliegue</strong><br>
+      <span class="chip"><code>index.html</code></span>
+      <span class="chip"><code>styles.css</code></span>
+      <span class="chip"><code>functions.js</code></span>
+      <span class="chip"><code>reporte/</code></span><br>
+      <span class="note">Datos persistidos en el navegador con IndexedDB.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. CONCLUSION ============ -->
+<section class="page">
+  <h2>6. Conclusi&oacute;n</h2>
+  <p>El trabajo muestra por qu&eacute; el control de versiones es indispensable en el desarrollo web. Partir de un
+  proyecto sin historial impide saber qu&eacute; cambi&oacute;, qui&eacute;n lo cambi&oacute; y por qu&eacute;; con Git, cada cambio queda
+  registrado con un mensaje que explica su intenci&oacute;n, y se puede volver a cualquier punto anterior del proyecto.</p>
+
+  <p>El uso de <strong>ramas</strong> result&oacute; especialmente &uacute;til. Al desarrollar la personalizaci&oacute;n de la
+  interfaz en <code>feature/personalizacion-ui</code>, <code>main</code> se mantuvo intacta y desplegable: si la
+  nueva interfaz hubiera tenido un error, el sitio original segu&iacute;a disponible y la correcci&oacute;n se hac&iacute;a
+  en la misma rama, sin reconstruir nada. Esta seguridad desaparece cuando todo se desarrolla directamente sobre la
+  rama principal.</p>
+
+  <p>El <strong>Pull Request</strong> a&ntilde;adi&oacute; una segunda capa de revisi&oacute;n: los cambios se presentan
+  como un conjunto ordenado y con descripci&oacute;n antes de integrarse, lo que permite detectar omisiones y dejar
+  registro de las decisiones. La fusi&oacute;n mediante <em>merge commit</em> conserva adem&aacute;s la traza completa de la
+  rama, en lugar de aplastarla en un solo commit.</p>
+
+  <p>Finalmente, <strong>GitHub Pages</strong> completa el proceso con el despliegue continuo: cada fusi&oacute;n en
+  <code>main</code> actualiza autom&aacute;ticamente la URL p&uacute;blica, sin pasos manuales. Eso permite revisar el
+  resultado real en un navegador, con <code>https</code> y con IndexedDB funcionando, y detectarlo antes de
+  presentarlo. El ciclo completo &mdash;ramas, commits, Pull Request, fusi&oacute;n y despliegue&mdash; se convierte en un
+  proceso <strong>repetible y verificable</strong>: cualquier revisi&oacute;n puede reconstruir exactamente c&oacute;mo se lleg&oacute;
+  a la versi&oacute;n publicada, y los errores se detectan y corrigen con la misma eficacia de un cambio local.</p>
+
+  <hr class="dashed">
+  <p class="note"><strong>Palabras clave:</strong> control de versiones, Git, ramas, Pull Request, merge,
+  GitHub Pages, despliegue continuo, IndexedDB, HTML, CSS, JavaScript.</p>
+</section>
+
+</body>
+</html>
