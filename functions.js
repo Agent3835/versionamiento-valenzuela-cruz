@@ -16,6 +16,93 @@ request.onupgradeneeded = function(event) {
     db.createObjectStore('products', { keyPath: 'id' });
 };
 
+// ===== Modal: abrir y cerrar el formulario de productos =====
+const modalOverlay = document.getElementById('modalOverlay');
+const nameInput = document.getElementById('name');
+const priceInput = document.getElementById('price');
+
+function openModal() {
+    modalOverlay.classList.add('active');
+    nameInput.focus();
+}
+
+function closeModal() {
+    modalOverlay.classList.remove('active');
+    //Clear the form fields
+    nameInput.value = '';
+    priceInput.value = '';
+}
+
+document.getElementById('openModalBtn').addEventListener('click', openModal);
+document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+document.getElementById('cancelModalBtn').addEventListener('click', closeModal);
+
+//Close the modal when clicking outside the window
+modalOverlay.addEventListener('click', function(event) {
+    if (event.target === modalOverlay) {
+        closeModal();
+    }
+});
+
+//Close the modal with the Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && modalOverlay.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// ===== Barra de tareas: boton Start y reloj =====
+const startButton = document.getElementById('startButton');
+const startMenu = document.getElementById('startMenu');
+
+function toggleStartMenu() {
+    const isOpen = !startMenu.hidden;
+    startMenu.hidden = isOpen;
+    startButton.setAttribute('aria-expanded', String(!isOpen));
+}
+
+function closeStartMenu() {
+    startMenu.hidden = true;
+    startButton.setAttribute('aria-expanded', 'false');
+}
+
+startButton.addEventListener('click', function(event) {
+    event.stopPropagation(); // evita cerrarse con el clic en el documento
+    toggleStartMenu();
+});
+
+//Cerrar el menu al hacer clic fuera de el
+document.addEventListener('click', function(event) {
+    if (!startMenu.hidden && !startMenu.contains(event.target)) {
+        closeStartMenu();
+    }
+});
+
+//El menu se cierra con la tecla Escape
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && !startMenu.hidden) {
+        closeStartMenu();
+    }
+});
+
+//La opcion "Products" abre el formulario de alta
+document.getElementById('menuNewProduct').addEventListener('click', function(event) {
+    event.preventDefault();
+    closeStartMenu();
+    openModal();
+});
+
+//Reloj de la barra de tareas
+function updateClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('taskbarClock').textContent = hours + ':' + minutes;
+}
+
+updateClock();
+setInterval(updateClock, 30000); // se actualiza cada 30 segundos
+
 //Load/Read products from IndexedDB and display them in the table
 function loadProductTable() {
     const transaction = db.transaction(['products'], 'readonly');
@@ -28,6 +115,12 @@ function loadProductTable() {
         const tableBody = document.querySelector('#productsTable tbody');
         tableBody.innerHTML = ''; // Clear the table before adding new products
 
+        if (products.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td colspan="4" class="empty-state">No products added yet.</td>`;
+            tableBody.appendChild(row);
+        }
+
         products.forEach(product => {
             //Create a table row
             const row = document.createElement('tr');
@@ -39,6 +132,10 @@ function loadProductTable() {
             `;
             tableBody.appendChild(row);
         });
+
+        //Update the status bar with the product count
+        document.getElementById('statusText').textContent =
+            products.length + (products.length === 1 ? ' product' : ' products');
 
     //Add event listeners for delete buttons
         document.querySelectorAll('.delete-btn').forEach(button => {
@@ -74,12 +171,12 @@ function addProduct() {
 
     //Add/Create the new product to the DB
         store.add(newProduct);
-        //Clear the form fields
-        document.getElementById('name').value = '';
-        document.getElementById('price').value = '';
 
     //Update the table with the new product
         loadProductTable();
+
+    //Close the modal (it also clears the form fields)
+        closeModal();
     };
 }
 
@@ -98,3 +195,12 @@ function deleteProduct(event) {
 
 //Event listener for the button click
 document.getElementById('addProduct').addEventListener('click', addProduct);
+
+//Allow pressing Enter inside the modal inputs to add the product
+[nameInput, priceInput].forEach(input => {
+    input.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            addProduct();
+        }
+    });
+});

@@ -1,113 +1,386 @@
-body {
-    background: linear-gradient(#8412B0, #000);
-    font-family: 'Consolas', sans-serif;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+/* ==================================================
+   Paleta y tipografia retro — Variables CSS
+   Estetica Windows 95/98 con colores desaturados
+   ================================================== */
+
+:root {
+    /* Superficies */
+    --win-desktop: #4a6a6a;      /* escritorio teal desaturado */
+    --win-face: #c0c0c0;         /* gris de las ventanas/barras */
+    --win-shadow: #808080;       /* bisel: sombra media */
+    --win-dark: #0a0a0a;         /* bisel: sombra profunda */
+    --win-light: #dfdfdf;        /* bisel: luz media */
+    --win-white: #ffffff;        /* bisel: luz profunda / campos */
+
+    /* Tinta */
+    --ink: #000000;
+    --ink-invert: #ffffff;
+
+    /* Títulos de ventana */
+    --title-navy: #1c3f7a;
+    --title-blue: #4a76b5;
+
+    /* Acento sobrio para el encabezado */
+    --accent: #8fa9c4;
 }
 
-h1 {
-    color: #FFF;
-    text-align: center;
-    margin-top: 20px;
-    font-size: 2.5em;
-    display: inline;
-    text-shadow: 0 0 10px #FC199A, 0 0 20px #FC199A, 0 0 30px #FC199A, 0 0 40px #FF007F, 0 0 50px #FF007F;
-}
-
-.container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-top: 50px;
-    width: 90%;
-    max-width: 1200px;
-}
-
-.formContainer {
-    text-align: center;
-    background-color: #FF007F;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    width: 20%;
-    margin-right: 20px;
-}
-
-label {
-    color: #00FFFF;
-    font-size: 14px;
-    margin-right: 10px;
-}
-
-input {
-    padding: 8px;
-    margin-right: 10px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 100%;
+/* ===== Base ===== */
+* {
     box-sizing: border-box;
 }
 
-button {
-    background-color: #FFCC00;
-    color: #8412B0;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
+body {
+    background-color: var(--win-desktop);
+    color: var(--ink);
+    font-family: 'Pixelify Sans', 'Tahoma', 'MS Sans Serif', sans-serif;
+    font-size: 14px;
+    margin: 0;
+    padding: 40px 20px 68px; /* espacio inferior para la barra de tareas */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+/* ===== Ventana (panel en relieve) ===== */
+.window {
+    background-color: var(--win-face);
+    padding: 3px;
+    width: 100%;
+    max-width: 640px;
+    box-shadow:
+        inset -1px -1px var(--win-dark),
+        inset 1px 1px var(--win-white),
+        inset -2px -2px var(--win-shadow),
+        inset 2px 2px var(--win-light);
+}
+
+/* ===== Barra de titulo ===== */
+.title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(90deg, var(--title-navy), var(--title-blue));
+    color: var(--ink-invert);
+    padding: 3px 4px 3px 10px;
+    user-select: none;
+}
+
+.title-bar-text {
+    font-family: 'VT323', 'Pixelify Sans', monospace;
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 0;
+    color: var(--ink-invert);
+}
+
+.title-bar-controls {
+    display: flex;
+    gap: 3px;
+}
+
+.title-bar-btn {
+    width: 22px;
+    height: 18px;
+    padding: 0;
+    font-size: 11px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== Contenido de la ventana: elementos centrados y con aire ===== */
+.window-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ===== Barra de herramientas sobre la tabla ===== */
+.toolbar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* ===== Barra de estado ===== */
+.status-bar {
+    display: flex;
+    gap: 3px;
+    padding: 3px 0 0 0;
+}
+
+.status-bar span {
+    flex: 1;
+    padding: 4px 10px;
+    font-size: 13px;
+    color: var(--ink);
+    box-shadow:
+        inset -1px -1px var(--win-white),
+        inset 1px 1px var(--win-shadow);
+}
+
+/* ===== Formulario ===== */
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formContainer label {
+    margin-top: 4px;
+}
+
+label {
+    color: var(--ink);
+    font-size: 14px;
+}
+
+/* ===== Campos (hundidos) ===== */
+input {
+    font-family: inherit;
     font-size: 14px;
     width: 100%;
+    padding: 8px 10px;
+    background-color: var(--win-white);
+    color: var(--ink);
+    border: none;
+    outline: none;
+    box-shadow:
+        inset -1px -1px var(--win-white),
+        inset 1px 1px var(--win-dark),
+        inset -2px -2px var(--win-light),
+        inset 2px 2px var(--win-shadow);
 }
 
-button:hover {
-    background-color: #FC199A;
-    color: #fff;
+/* ===== Botones (en relieve, se hunden al pulsar) ===== */
+button {
+    font-family: inherit;
+    font-size: 14px;
+    background-color: var(--win-face);
+    color: var(--ink);
+    border: none;
+    padding: 8px 20px;
+    cursor: pointer;
+    box-shadow:
+        inset -1px -1px var(--win-dark),
+        inset 1px 1px var(--win-white),
+        inset -2px -2px var(--win-shadow),
+        inset 2px 2px var(--win-light);
 }
 
+button:active {
+    box-shadow:
+        inset -1px -1px var(--win-white),
+        inset 1px 1px var(--win-dark),
+        inset -2px -2px var(--win-light),
+        inset 2px 2px var(--win-shadow);
+}
+
+/* ===== Tabla (hundida, estilo list view) ===== */
 table {
-    width: 60%;
+    width: 100%;
     border-collapse: collapse;
-    margin: 0 auto;
+    background-color: var(--win-white);
+    box-shadow:
+        inset -1px -1px var(--win-white),
+        inset 1px 1px var(--win-dark),
+        inset -2px -2px var(--win-light),
+        inset 2px 2px var(--win-shadow);
 }
 
 th, td {
-    border: 1px solid #ddd;
-    padding: 12px 15px;
+    padding: 8px 12px;
     text-align: left;
 }
 
 th {
-    background-color: #FC199A;
-    color: white;
+    background-color: var(--win-face);
+    color: var(--ink);
+    font-family: 'VT323', 'Pixelify Sans', monospace;
+    font-size: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--win-shadow);
+    box-shadow: inset -1px -1px var(--win-shadow), inset 1px 1px var(--win-white);
 }
 
 td {
-    background-color: #00FFFF;
-    color: #8412B0;
+    background-color: var(--win-white);
+    color: var(--ink);
+    border-bottom: 1px solid var(--win-light);
 }
 
 .delete-btn {
-    background-color: #f0745e;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
+    padding: 4px 14px;
+    font-size: 13px;
 }
 
-.delete-btn:hover {
-    background-color: #ff0800;
+/* Estado sin productos */
+.empty-state {
+    text-align: center;
+    color: var(--win-shadow);
+    padding: 20px;
 }
 
+/* ===== Modal ===== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(26, 38, 58, 0.45);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 100;
+}
 
-#productsTable tbody tr {
-    background-color: #FFF;
-    color: #000;
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-window {
+    max-width: 340px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.modal-buttons button {
+    min-width: 100px;
+}
+
+/* ===== Pie de pagina con la identidad del estudiante ===== */
+.app-footer {
+    text-align: center;
+    color: var(--win-light);
+    padding: 0 0 8px;
+    text-shadow: 1px 1px 0 rgba(10, 10, 10, 0.55);
+}
+
+.footer-name {
+    font-family: 'VT323', 'Pixelify Sans', monospace;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.footer-meta {
+    font-size: 13px;
+    color: var(--win-shadow);
+    margin: 2px 0 0;
+}
+
+/* ===== Barra de tareas (fija al pie, estilo Win95) ===== */
+.taskbar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px;
+    background-color: var(--win-face);
+    box-shadow:
+        inset 0 1px 0 var(--win-white),
+        inset 0 2px 0 var(--win-light);
+}
+
+.start-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'VT323', 'Pixelify Sans', monospace;
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+    padding: 3px 12px;
+    font-weight: 400;
+}
+
+.start-flag {
+    color: var(--title-blue);
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+/* Menu desplegable del boton Start */
+.start-menu {
+    position: absolute;
+    bottom: 100%;
+    left: 6px;
+    width: 240px;
+    background-color: var(--win-face);
+    padding: 3px;
+    box-shadow:
+        inset -1px -1px var(--win-dark),
+        inset 1px 1px var(--win-white),
+        inset -2px -2px var(--win-shadow),
+        inset 2px 2px var(--win-light);
+}
+
+.start-menu-banner {
+    background: linear-gradient(90deg, var(--title-navy), var(--title-blue));
+    color: var(--ink-invert);
+    padding: 10px 12px;
+    margin-bottom: 3px;
+}
+
+.start-menu-name {
+    font-family: 'VT323', 'Pixelify Sans', monospace;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+.start-menu-user {
+    font-size: 12px;
+    color: var(--win-light);
+    margin: 0;
+}
+
+.start-menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0;
+}
+
+.start-menu-item {
+    display: block;
+    padding: 7px 12px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.start-menu-item:hover,
+.start-menu-item:focus-visible {
+    background-color: var(--title-navy);
+    color: var(--ink-invert);
+    outline: none;
+}
+
+/* Reloj de la bandeja del sistema */
+.taskbar-tray {
+    margin-left: auto;
+}
+
+.tray-clock {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 13px;
+    color: var(--ink);
+    box-shadow:
+        inset -1px -1px var(--win-white),
+        inset 1px 1px var(--win-shadow);
 }
