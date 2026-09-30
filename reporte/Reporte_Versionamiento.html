@@ -131,7 +131,7 @@ hr.dashed{border:none; border-top:2px dashed var(--shadow); margin:16px 0}
   <table>
     <thead><tr><th style="width:8%">#</th><th style="width:30%">Requisito</th><th>Soluci&oacute;n aplicada</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td>Paleta de colores</td><td>Paleta retro desaturada declarada como variables CSS (<code>:root</code>): escritorio <code>#4a6a6a</code>, superficies <code>#c0c0c0</code>, barras de t&iacute;tulo <code>#1c3f7a &rarr; #4a76b5</code> y biselados <code>#ffffff / #dfdfdf / #808080 / #0a0a0a</code>.</td></tr>
+      <tr><td>1</td><td>Paleta de colores</td><td>Paleta aut&eacute;ntica Windows 95/98 declarada como variables CSS (<code>:root</code>): escritorio teal <code>#008080</code>, superficies <code>#c0c0c0</code>, barras de t&iacute;tulo <code>#000080 &rarr; #1084d0</code> y biselados <code>#ffffff / #dfdfdf / #808080 / #0a0a0a</code>. Se eliminaron los colores ne&oacute;n originales (<code>#8412B0</code>, <code>#FF007F</code>, <code>#00FFFF</code>).</td></tr>
       <tr><td>2</td><td>Tipograf&iacute;a</td><td>Google Fonts: <strong>VT323</strong> en t&iacute;tulos y encabezados de tabla, <strong>Pixelify Sans</strong> en el texto de la interfaz.</td></tr>
       <tr><td>3</td><td>Elemento visual nuevo</td><td>Barra de tareas fija estilo Win95 con bot&oacute;n <strong>Start</strong> y men&uacute; desplegable, reloj en vivo y bandeja del sistema. Adem&aacute;s: ventanas con barra de t&iacute;tulo, formulario como <strong>modal</strong> y barra de estado.</td></tr>
       <tr><td>4</td><td>Identidad del estudiante</td><td>Pie de p&aacute;gina y men&uacute; Start con el nombre <strong>Valenzuela Cruz Emmanuel</strong>, grupo 9no C, materia y usuario de GitHub.</td></tr>
@@ -244,16 +244,28 @@ gh pr merge --merge</pre>
       <tr><td>Pruebas funcionales<br><span class="note">(jsdom + fake-indexeddb)</span></td>
           <td><strong>24 pruebas, todas correctas</strong>: alta y baja de productos con IndexedDB, modal (apertura, cierre por X / Cancel / Escape / clic exterior, limpieza de campos, tecla Enter), estado vac&iacute;o, men&uacute; Start (apertura, clic exterior, Escape, enlace a productos), reloj y pie de p&aacute;gina.</td></tr>
       <tr><td>Estilos calculados<br><span class="note">(Chrome, <code>getComputedStyle</code>)</span></td>
-          <td>Confirm&oacute; la paleta aplicada (<code>rgb(74,106,106)</code> escritorio, <code>rgb(192,192,192)</code> ventana), las tipograf&iacute;as de Google Fonts, los biselados de botones y tabla, el centrado del layout, el modal oculto por defecto y la barra de tareas fija.</td></tr>
+          <td>Confirm&oacute; la paleta aplicada (<code>rgb(0,128,128)</code> = <code>#008080</code> de escritorio, <code>rgb(192,192,192)</code> de ventana, degradado <code>#000080 &rarr; #1084d0</code> en la barra de t&iacute;tulo), las tipograf&iacute;as de Google Fonts, los biselados de botones y tabla, el centrado del layout, el modal oculto por defecto y la barra de tareas fija.</td></tr>
+      <tr><td>Prueba extremo a extremo<br><span class="note">(Chrome real, Puppeteer)</span></td>
+          <td><strong>Flujo completo sin errores de consola</strong>: alta de 2 productos, borrado, tecla Enter, men&uacute; Start &rarr; Products, Escape y <strong>persistencia tras recargar la p&aacute;gina</strong> (los productos siguen en IndexedDB).</td></tr>
     </tbody>
   </table>
+
+  <h3>4.1 Incidencia detectada y corregida</h3>
+  <p>Durante la verificaci&oacute;n en un navegador real se detect&oacute; que el bot&oacute;n Start, el reloj y el alta de
+  productos no respond&iacute;an. La causa: la etiqueta <code>&lt;script src="functions.js"&gt;</code> qued&oacute;
+  <strong>antes</strong> del HTML de la barra de tareas, as&iacute; que <code>getElementById('startButton')</code> era
+  <code>null</code> y el <code>TypeError</code> resultante abortaba el resto del script (incluidos los listeners de los
+  botones). La correcci&oacute;n fue mover el <code>&lt;script&gt;</code> al final del <code>&lt;body&gt;</code>. Adem&aacute;s se
+  ajust&oacute; la paleta a los valores aut&eacute;nticos de Windows 95/98, que en una primera iteraci&oacute;n se hab&iacute;an
+  desaturado en exceso. Esta incidencia es un ejemplo pr&aacute;ctico del valor de probar la rama antes de fusionarla.</p>
 
   <div class="box">
     <strong>Alcance de los cambios.</strong> La l&oacute;gica de <code>IndexedDB</code>
     (<code>open</code>, <code>onupgradeneeded</code>, <code>getAll</code>, <code>add</code>, <code>delete</code>)
     se conserv&oacute; intacta: la pr&aacute;ctica es de control de versiones, no de rehacer la base de datos. Los
     cambios se limitan a la capa de presentaci&oacute;n (HTML, CSS) y al JavaScript de interfaz (modal, men&uacute; Start,
-    reloj). El repositorio recib&oacute; <strong>533 l&iacute;neas agregadas y 90 eliminadas</strong> en los tres archivos.
+    reloj). El repositorio recibi&oacute; <strong>533 l&iacute;neas agregadas y 90 eliminadas</strong> en los tres archivos
+    base, m&aacute;s un commit de correcci&oacute;n (8 l&iacute;neas agregadas, 10 eliminadas).
   </div>
 
   <div class="box accent">

@@ -5,7 +5,7 @@
 
 :root {
     /* Superficies */
-    --win-desktop: #4a6a6a;      /* escritorio teal desaturado */
+    --win-desktop: #008080;      /* escritorio teal clasico de Win95 */
     --win-face: #c0c0c0;         /* gris de las ventanas/barras */
     --win-shadow: #808080;       /* bisel: sombra media */
     --win-dark: #0a0a0a;         /* bisel: sombra profunda */
@@ -17,11 +17,8 @@
     --ink-invert: #ffffff;
 
     /* Títulos de ventana */
-    --title-navy: #1c3f7a;
-    --title-blue: #4a76b5;
-
-    /* Acento sobrio para el encabezado */
-    --accent: #8fa9c4;
+    --title-navy: #000080;
+    --title-blue: #1084d0;
 }
 
 /* ===== Base ===== */
@@ -232,7 +229,7 @@ td {
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background-color: rgba(26, 38, 58, 0.45);
+    background-color: rgba(0, 0, 64, 0.4);
     display: none;
     justify-content: center;
     align-items: center;
@@ -276,7 +273,7 @@ td {
 
 .footer-meta {
     font-size: 13px;
-    color: var(--win-shadow);
+    color: var(--win-light);
     margin: 2px 0 0;
 }
 
