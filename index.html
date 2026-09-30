@@ -48,6 +48,11 @@
         </div>
     </div>
 
+    <footer class="app-footer">
+        <p class="footer-name">Valenzuela Cruz Emmanuel</p>
+        <p class="footer-meta">Grupo 9no C &middot; Desarrollo Web Integral &middot; GitHub: Agent3835</p>
+    </footer>
+
     <!-- Modal: formulario para agregar productos -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="window modal-window" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -76,5 +81,28 @@
     </div>
 
     <script src="functions.js"></script>
+
+    <!-- Barra de tareas estilo Windows 95 -->
+    <div class="taskbar">
+        <button class="start-button" id="startButton" type="button" aria-haspopup="true" aria-expanded="false">
+            <span class="start-flag">&#9632;</span>Start
+        </button>
+
+        <div class="start-menu" id="startMenu" role="menu" aria-labelledby="startButton" hidden>
+            <div class="start-menu-banner">
+                <p class="start-menu-name">Valenzuela Cruz Emmanuel</p>
+                <p class="start-menu-user">Agent3835</p>
+            </div>
+            <ul class="start-menu-list">
+                <li><a class="start-menu-item" id="menuNewProduct" href="#productsTable" role="menuitem">Products</a></li>
+                <li><a class="start-menu-item" href="https://github.com/Agent3835/versionamiento-valenzuela-cruz" role="menuitem" target="_blank" rel="noopener">Repository</a></li>
+                <li><a class="start-menu-item" href="https://github.com/Agent3835" role="menuitem" target="_blank" rel="noopener">GitHub Profile</a></li>
+            </ul>
+        </div>
+
+        <div class="taskbar-tray">
+            <span class="tray-clock" id="taskbarClock">--:--</span>
+        </div>
+    </div>
 </body>
 </html>

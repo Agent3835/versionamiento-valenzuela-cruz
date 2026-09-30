@@ -51,6 +51,58 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
+// ===== Barra de tareas: boton Start y reloj =====
+const startButton = document.getElementById('startButton');
+const startMenu = document.getElementById('startMenu');
+
+function toggleStartMenu() {
+    const isOpen = !startMenu.hidden;
+    startMenu.hidden = isOpen;
+    startButton.setAttribute('aria-expanded', String(!isOpen));
+}
+
+function closeStartMenu() {
+    startMenu.hidden = true;
+    startButton.setAttribute('aria-expanded', 'false');
+}
+
+startButton.addEventListener('click', function(event) {
+    event.stopPropagation(); // evita cerrarse con el clic en el documento
+    toggleStartMenu();
+});
+
+//Cerrar el menu al hacer clic fuera de el
+document.addEventListener('click', function(event) {
+    if (!startMenu.hidden && !startMenu.contains(event.target)) {
+        closeStartMenu();
+    }
+});
+
+//El menu se cierra con la tecla Escape
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && !startMenu.hidden) {
+        closeStartMenu();
+    }
+});
+
+//La opcion "Products" abre el formulario de alta
+document.getElementById('menuNewProduct').addEventListener('click', function(event) {
+    event.preventDefault();
+    closeStartMenu();
+    openModal();
+});
+
+//Reloj de la barra de tareas
+function updateClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('taskbarClock').textContent = hours + ':' + minutes;
+}
+
+updateClock();
+setInterval(updateClock, 30000); // se actualiza cada 30 segundos
+
 //Load/Read products from IndexedDB and display them in the table
 function loadProductTable() {
     const transaction = db.transaction(['products'], 'readonly');
